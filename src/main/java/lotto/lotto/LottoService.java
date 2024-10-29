@@ -2,18 +2,23 @@ package lotto.lotto;
 
 public class LottoService {
 
-    public LottoMachine createLottoMachine(int price, int manualCnt) {
-        LottoMachine lottoMachine = new LottoMachine(price, manualCnt);
-        return lottoMachine;
+    private static final LottoMachine lottoMachine = LottoMachine.createInstance();
+
+    public LottoMachine getLottoMachine(){
+        return  lottoMachine;
     }
 
-    public Lottos createLotto(LottoMachine lottoMachine, String[] inputLottos) {
-        LottoParameters lottoParameters = new LottoParameters(inputLottos, lottoMachine.getAutoCnt());
+    public Lottos createLotto(String[] inputLottos, int autoCnt) {
+        LottoParameters lottoParameters = new LottoParameters(inputLottos, autoCnt);
 
         Lottos autoLottos = lottoMachine.createLottos(new AutoLottoStrategy(), lottoParameters);
         Lottos manuaLottos = lottoMachine.createLottos(new ManualLottoStrategy(), lottoParameters);
 
         return new Lottos(autoLottos.getLottos(), manuaLottos.getLottos());
+    }
+
+    public int getAutoCount(int price, int manualCnt) {
+        return lottoMachine.calculateAutoCnt(price, manualCnt);
     }
 
     public LottoResult calculateLottoRank(String answer, Lottos lottos, int bonusNumber) {

@@ -25,8 +25,8 @@ public class ResultView {
         }
     }
 
-    public void printLottoCnt(LottoMachine lottoMachine) {
-        System.out.println("수동으로 " + lottoMachine.getManualCnt() + "장, " + "자동으로 " + lottoMachine.getAutoCnt() + "개를 구매했습니다.");
+    public void printLottoCnt(int autoCnt, int manualCnt) {
+        System.out.println("수동으로 " + autoCnt + "장, " + "자동으로 " + manualCnt + "개를 구매했습니다.");
     }
 
 }

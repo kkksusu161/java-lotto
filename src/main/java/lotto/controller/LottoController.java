@@ -21,10 +21,11 @@ public class LottoController {
 
         LottoService lottoService = new LottoService();
 
-        LottoMachine lottoMachine = lottoService.createLottoMachine(price, manualCnt);
-        Lottos lottos = lottoService.createLotto(lottoMachine, inputManualLotto);
+        //LottoMachine lottoMachine = lottoService.createLottoMachine();
+        int autoCnt = lottoService.getAutoCount(price, manualCnt);
+        Lottos lottos = lottoService.createLotto(inputManualLotto, autoCnt);
 
-        resultView.printLottoCnt(lottoMachine);
+        resultView.printLottoCnt(autoCnt, manualCnt);
         resultView.printCreateLotto(lottos);
 
         String answer = inputView.inputAnswer();

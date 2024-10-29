@@ -14,11 +14,10 @@ public class LottoNumberServiceTest {
     private LottoResult result = new LottoResult();
 
     @Test
-    @DisplayName("로또 금액만큼 로또를 생성")
+    @DisplayName("수동로또와 자동로또를 갯수에 맞게 로또를 생성")
     public void createLottoTest() {
-        LottoMachine lottoMachine = new LottoMachine(3000, 0);
-        Lottos lottos = lottoService.createLotto(lottoMachine, null);
-
+        String[] manualArray = {"1, 2, 3, 4, 5, 6"};
+        Lottos lottos = lottoService.createLotto(manualArray, 2);
         assertThat(lottos.getLottos().size()).isEqualTo(3);
     }
 

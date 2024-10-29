@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class LottoMachineTest {
     private LottoGeneratorStrategy lottoGeneratorStrategy;
-
+    private LottoMachine lottoMachine = LottoMachine.createInstance();
     @BeforeEach
     void setUp() {
         lottoGeneratorStrategy = new FakeLottoStrategy();
@@ -23,28 +23,27 @@ class LottoMachineTest {
 
     @Test
     void 로또_자동_생성_횟수_구하기() {
-        LottoMachine lottoMachine = new LottoMachine(3000, 2);
-        assertThat(lottoMachine.getAutoCnt()).isEqualTo(1);
+        assertThat(lottoMachine.calculateAutoCnt(1000, 0)).isEqualTo(1);
     }
 
     @Test
     void 로또_금액_초과시_IllegalArgumentException() {
         assertThatThrownBy(() -> {
-            LottoMachine lottoMachine = new LottoMachine(3000, 4);
+            lottoMachine.calculateAutoCnt(1000, 3);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 로또_금액은_1000원_미만_IllegalArgumentException() {
         assertThatThrownBy(() -> {
-            LottoMachine lottoMachine = new LottoMachine(500, 1);
+            lottoMachine.calculateAutoCnt(500, 1);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("로또 자동생성을 주어진 횟수만큼 생성")
     void createLottosAuto() {
-        LottoMachine lottoMachine = new LottoMachine(3000, 0);
+
         LottoGeneratorStrategy autoLottoStrategy = new FakeAutoLottoStrategy();
         Lottos lottos = lottoMachine.createLottos(autoLottoStrategy, new LottoParameters( 3));
 
@@ -74,7 +73,6 @@ class LottoMachineTest {
     void createLottosManual() {
         List<Lotto> compareLottos = new ArrayList<>();
         createCompareLottos(compareLottos);
-        LottoMachine lottoMachine = new LottoMachine(3000, 2);
         String[] lottoArray = {"1, 2, 3, 4, 5, 6", "11, 12, 13, 14, 15, 16"};
 
         ManualLottoStrategy manualLottoStrategy = new ManualLottoStrategy();
